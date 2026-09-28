@@ -113,10 +113,3 @@ KHDL-Group-7/
 
 ### 🔗 Tài liệu tham khảo
 - [IBM HR Analytics Employee Attrition Dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
-
----
-
-Nếu bạn muốn, tôi có thể tiếp tục viết tiếp cho bạn một phiên bản:
-1. chuyên nghiệp hơn cho báo cáo đồ án,
-2. gọn hơn cho README GitHub,
-3. hoặc chuẩn theo template của trường đại học.
