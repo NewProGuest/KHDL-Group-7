@@ -1,115 +1,42 @@
-# KHDL-Group-7
-Đồ án Khoa học dữ liệu: Phân tích nguyên nhân nghỉ việc của nhân sự (IBM HR Analytics Employee Attrition)
+# 📊 Đồ án Khoa học Dữ liệu: Phân tích nguyên nhân nghỉ việc của nhân sự (HR Analytics)
 
-## Đề tài 5: Phân tích nguyên nhân nghỉ việc của nhân sự (HR Analytics)
+> **Nhóm thực hiện:** Nhóm 7 (KHDL)  
+> **Repository:** [KHDL-Group-7](https://github.com/NewProGuest/KHDL-Group-7)
 
-### 📌 Tổng quan dự án
-- Nhóm thực hiện: Nhóm 7 (KHDL)
-- Bộ dữ liệu: [IBM HR Analytics Employee Attrition](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
-- Mục tiêu chính:
-  1. Khám phá các yếu tố ảnh hưởng đến quyết định nghỉ việc của nhân viên.
-  2. Xây dựng mô hình dự đoán nguy cơ nghỉ việc của nhân sự.
-  3. Đề xuất các giải pháp và chính sách giúp doanh nghiệp giữ chân nhân tài hiệu quả hơn.
+---
 
-### 🎯 Mục tiêu nghiên cứu
-- Phân tích mối quan hệ giữa biến mục tiêu `Attrition` (Yes/No) và các biến độc lập như:
-  - `MonthlyIncome`
-  - `DistanceFromHome`
-  - `JobSatisfaction`
-  - `TotalWorkingYears`
-  - `YearsAtCompany`
-  - `WorkLifeBalance`
-  - `EnvironmentSatisfaction`
-  - `JobLevel`, `Department`, `Education`, ...
-- Tìm ra các yếu tố có tác động lớn nhất tới khả năng nhân viên nghỉ việc.
-- So sánh hiệu suất của các mô hình phân loại để chọn mô hình tối ưu.
-- Đề xuất khuyến nghị phù hợp với doanh nghiệp dựa trên các dấu hiệu quan trọng từ dữ liệu.
+## 🎯 1. Mục tiêu nghiên cứu
+- **Phân tích nguyên nhân:** Tìm hiểu các yếu tố cốt lõi ảnh hưởng đến quyết định nghỉ việc của nhân viên (`Attrition`).
+- **Mô hình hóa dự đoán:** Xây dựng mô hình Machine Learning phân loại để cảnh báo sớm nguy cơ nghỉ việc.
+- **Đề xuất giải pháp:** Đưa ra khuyến nghị cho phòng HR nhằm giảm tỷ lệ nghỉ việc và giữ chân nhân tài.
 
-### 🧪 Quy trình thực hiện
+---
 
-#### 1. Khám phá dữ liệu (EDA)
-- Kiểm tra cấu trúc dữ liệu, kiểu dữ liệu và dữ liệu thiếu.
-- Phân tích thống kê mô tả (mean, median, std, min, max).
-- So sánh phân phối giữa nhóm nghỉ việc và không nghỉ việc.
-- Trực quan hóa dữ liệu bằng:
-  - Boxplot
-  - Bar chart
-  - Histogram
-  - Heatmap
-  - Scatter plot
-- Xác định các biến có sự chênh lệch rõ ràng giữa hai nhóm.
+## 📦 2. Bộ dữ liệu
+- **Tên dataset:** [IBM HR Analytics Employee Attrition](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
+- **Kích thước:** 1,470 bản ghi, 35 thuộc tính (gồm thông tin lương, khoảng cách đi làm, chỉ số hài lòng, số năm kinh nghiệm,...).
+- **Biến mục tiêu:** `Attrition` (`Yes`: 16%, `No`: 84% - Bài toán bị mất cân bằng lớp).
 
-#### 2. Tiền xử lý dữ liệu và Feature Engineering
-- Xử lý dữ liệu thiếu nếu có.
-- Chuyển đổi biến phân loại thành dạng phù hợp cho mô hình (One-Hot Encoding, Label Encoding).
-- Tạo các biến mới để làm rõ hơn yếu tố ảnh hưởng, ví dụ:
-  - Tỷ lệ tăng lương
-  - Số năm làm việc tại công ty
-  - Tỷ lệ thời gian ở công ty hiện tại so với tổng số năm kinh nghiệm
-  - Tích hợp các biến tương tác quan trọng
-- Cân nhắc kỹ thuật xử lý dữ liệu mất cân bằng lớp (`Class Imbalance`).
+---
 
-#### 3. Xây dựng mô hình dự đoán
-- Áp dụng các mô hình phân loại phổ biến như:
-  - Logistic Regression
-  - Decision Tree
-  - Random Forest
-  - XGBoost
-  - Gradient Boosting
-- Tối ưu tham số bằng cách sử dụng:
-  - Cross-validation
-  - Grid Search / Random Search
-- Đánh giá mô hình theo các tiêu chí:
-  - Accuracy
-  - Precision
-  - Recall
-  - F1-Score
-  - ROC-AUC
-  - Confusion Matrix
+## 📈 3. Kết quả phân tích chính (Key Insights & Findings)
 
-#### 4. Phân tích độ quan trọng của đặc trưng
-- Xác định các biến có ảnh hưởng lớn nhất đến việc nghỉ việc.
-- Ví dụ: mức độ hài lòng công việc, khoảng cách từ nhà đến nơi làm việc, lương, số năm công tác, mức độ công nhận, cân bằng giữa công việc và cuộc sống.
-- Dùng kết quả từ Feature Importance để giải thích nguyên nhân nghề nghiệp.
+### 3.1. Các yếu tố tác động mạnh nhất đến việc nghỉ việc (EDA)
+1. **Tình trạng làm thêm giờ (`OverTime`):** Nhân viên làm thêm giờ có tỷ lệ nghỉ việc cao gấp **3 lần** so với nhóm không làm thêm giờ.
+2. **Mức thu nhập hàng tháng (`MonthlyIncome`):** Nhóm nghỉ việc tập trung chủ yếu ở phân khúc lương thấp (dưới $3,000/tháng).
+3. **Mức độ hài lòng công việc (`JobSatisfaction` & `EnvironmentSatisfaction`):** Điểm hài lòng ở mức 1 (Rất thấp) có nguy cơ nghỉ việc vượt trội.
+4. **Khoảng cách đi làm (`DistanceFromHome`):** Nhân viên sống xa công ty (>10km) có xu hướng rời đi cao hơn.
 
-#### 5. Kết luận và khuyến nghị
-- Tổng kết các yếu tố chính dẫn đến tình trạng nghỉ việc.
-- Đề xuất các chính sách phù hợp để giảm tỷ lệ nghỉ việc, ví dụ:
-  - Cải thiện chế độ đãi ngộ
-  - Nâng cao môi trường làm việc
-  - Tăng cơ hội thăng tiến
-  - Quản lý cân bằng giữa công việc và cuộc sống
-  - Tăng cường đánh giá sự hài lòng của nhân viên
+### 3.2. Hiệu suất mô hình Machine Learning
+- **Mô hình sử dụng:** Random Forest Classifier (kèm xử lý `class_weight='balanced'`).
+- **Đánh giá:**
+  - **Accuracy:** ~85%
+  - **ROC-AUC Score:** ~0.81
+  - **Top 3 đặc trưng quan trọng nhất:** `OverTime`, `MonthlyIncome`, `TotalWorkingYears`.
 
-### 📊 Kết quả mong đợi
-- Hiểu rõ nguyên nhân chủ yếu khiến nhân viên nghỉ việc.
-- Xây dựng mô hình dự đoán nguy cơ nghỉ việc với độ chính xác cao.
-- Đưa ra các đề xuất thực tiễn giúp doanh nghiệp cải thiện tỷ lệ giữ chân nhân tài.
+---
 
-### 🛠️ Công cụ và thư viện dự kiến
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- XGBoost
-- Jupyter Notebook
-
-### 📁 Cấu trúc dự án
-```bash
-KHDL-Group-7/
-├── data/
-│   └── HR_Employee_Attrition_Data.csv
-├── notebooks/
-│   └── EDA_and_Modeling.ipynb
-├── src/
-│   ├── preprocessing.py
-│   ├── modeling.py
-│   └── visualization.py
-├── README.md
-└── requirements.txt
-```
-
-### 🔗 Tài liệu tham khảo
-- [IBM HR Analytics Employee Attrition Dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
+## 💡 4. Khuyến nghị cho Doanh nghiệp (HR Policies)
+- ⚖️ **Cân bằng tải công việc:** Tối ưu hóa quy trình làm việc để giảm tải tình trạng làm thêm giờ (`OverTime`) kéo dài.
+- 💵 **Rà soát chính sách đãi ngộ:** Điều chỉnh mức lương sàn cho các vị trí có thu nhập thấp và thâm niên cao.
+- 🚗 **Hỗ trợ di chuyển:** Cung cấp phụ cấp xe đưa đón hoặc chế độ làm việc linh hoạt (Hybrid/Remote) cho nhân sự ở xa.
