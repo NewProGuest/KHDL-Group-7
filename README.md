@@ -98,3 +98,5 @@ pip install -r requirements.txt
 jupyter notebook notebooks/01_HR_Analytics.ipynb
 ```
 File dữ liệu phải nằm ở `data/WA_Fn-UseC_-HR-Employee-Attrition.csv` (đủ 1,470 dòng).
+
+![Bộ ba biểu đồ EDA trên nền trắng phân tích dữ liệu nhân sự. Biểu đồ hộp bên trái so sánh thu nhập hàng tháng của nhóm Attrition No và Yes tại Sales, Research & Development và Human Resources. Biểu đồ cột chồng ở giữa cho thấy tỷ lệ nghỉ việc: 10,4% khi không làm thêm giờ và 30,5% khi có làm thêm giờ. Biểu đồ bên phải thể hiện tỷ lệ nghỉ việc theo số công ty đã làm, cao nhất là 25,4% ở nhóm từng làm tại 5 công ty. Tiêu đề lần lượt: Phân phối lương theo Phòng ban & Nghỉ việc; Tỷ lệ nghỉ việc (%) theo Làm ngoài giờ (OverTime); Tỷ lệ nghỉ việc theo Số công ty đã làm. Nhãn trục gồm Thu nhập hàng tháng (MonthlyIncome), Phòng ban (Department), Làm ngoài giờ (OverTime), Tỷ lệ (%), và Số công ty đã làm (NumCompaniesWorked); chú giải Attrition gồm No và Yes. Hình chỉ gồm các biểu đồ dữ liệu, mang sắc thái phân tích trung tính.](images/eda_charts.jpg)
