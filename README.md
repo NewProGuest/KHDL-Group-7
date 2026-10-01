@@ -31,6 +31,7 @@ Tỷ lệ nghỉ việc trung bình là **16.1%**.
 4. **Công tác (`BusinessTravel`):** `Travel_Frequently` 24.9% so với `Non-Travel` 8.0%.
 5. **Quyền chọn cổ phiếu (`StockOptionLevel`):** mức 0 nghỉ việc 24.4%, mức 1–2 chỉ 7.6–9.4%.
 6. **Khoảng cách đi làm (`DistanceFromHome`):** sống xa hơn 10 km nghỉ việc 20.9% so với 14.0%. Tác động vừa phải.
+7. **Phòng ban (`Department`):** Sales 20.6% (n=446), Human Resources 19.0% (n=63), Research & Development 13.8% (n=961). Lưu ý nhóm HR chỉ có 63 người nên tỷ lệ kém ổn định.
 
 ### 3.2. Hiệu suất mô hình Machine Learning
 Quy trình: Feature Engineering (6 biến mới) → chia train/test 80/20 có phân tầng → so sánh 3 mô hình bằng Stratified 5-fold CV → tinh chỉnh bằng `RandomizedSearchCV` → chọn ngưỡng quyết định.
@@ -60,12 +61,22 @@ Quy trình: Feature Engineering (6 biến mới) → chia train/test 80/20 có p
 
 `OverTime` vượt trội rõ rệt so với các biến còn lại; từ hạng 3 trở đi chênh lệch nhỏ hơn độ lệch chuẩn nên không nên diễn giải thứ hạng quá chi tiết.
 
-**Mô hình minh họa – Decision Tree (max_depth=5, huấn luyện trên toàn bộ 1,470 bản ghi):** các biến được cây dùng nhiều nhất là `TotalWorkingYears` (22.78%), `OverTime_Yes` (14.72%), `DailyRate` (11.34%), `Age` (10.06%), `MonthlyIncome` (9.62%). Đây là độ quan trọng dựa trên impurity của một cây đơn, thiên về các biến liên tục và chưa kiểm chứng trên dữ liệu test, nên chỉ mang tính minh họa. Đáng chú ý, `DailyRate` xếp hạng **34/36** trong permutation importance (đóng góp âm) và trung vị của hai nhóm chỉ chênh nhẹ, nên đây là nhiễu của cây đơn, không đưa vào khuyến nghị.
+**Mô hình minh họa – Decision Tree (max_depth=5, `class_weight="balanced"`, huấn luyện trên toàn bộ 1,470 bản ghi; Mục 9 của notebook):**
+
+| Hạng | Đặc trưng | Độ quan trọng |
+|---|---|---|
+| 1 | `OverTime_Yes` | 21.71% |
+| 2 | `JobHopper` (biến phái sinh: số công ty đã làm / số năm làm việc) | 14.48% |
+| 3 | `JobLevel` | 9.51% |
+| 4 | `JobRole_Sales Executive` | 6.43% |
+| 5 | `TotalWorkingYears` | 5.73% |
+
+Đây là độ quan trọng *in-sample* dựa trên impurity của một cây đơn, thiên về các biến liên tục và chưa được kiểm chứng trên dữ liệu test, nên chỉ mang tính minh họa. Chỉ `OverTime` nhất quán ở cả hai phương pháp. `JobHopper` đứng thứ 2 trong cây nhưng gần như không đóng góp (hạng 28/36, mức giảm AUC ≈ −0.002) trong permutation importance, tức là khả năng cao chỉ là hiện tượng học thuộc của cây. Tương tự, `DailyRate` chiếm 3.44% trong cây nhưng xếp hạng **34/36** (đóng góp âm) trong permutation importance, nên không được đưa vào khuyến nghị.
 
 *Lưu ý:* độ quan trọng phản ánh đóng góp vào dự đoán, không chứng minh quan hệ nhân quả. Các biến tương quan mạnh (`Age`, `TotalWorkingYears`, `MonthlyIncome`, `JobLevel`) có thể chia sẻ mức quan trọng với nhau.
 
 ### 3.4. Danh sách nhân sự nguy cơ cao
-Với ngưỡng 0.30, mô hình gắn cờ 430/1,470 nhân viên (điểm out-of-fold). Nhóm bị gắn cờ có tỷ lệ làm thêm giờ **52%** (so với 19%), thu nhập trung bình $4,518 (so với $7,324). Bảng xếp hạng chi tiết theo `EmployeeNumber` nằm ở Mục 9 của notebook.
+Với ngưỡng 0.30, mô hình gắn cờ 430/1,470 nhân viên (điểm out-of-fold). Nhóm bị gắn cờ có tỷ lệ làm thêm giờ **52%** (so với 19%), thu nhập trung bình $4,518 (so với $7,324). Bảng xếp hạng chi tiết theo `EmployeeNumber` nằm ở Mục 10 của notebook.
 
 ---
 
@@ -79,7 +90,7 @@ Với ngưỡng 0.30, mô hình gắn cờ 430/1,470 nhân viên (điểm out-of
 ## ⚠️ 5. Hạn chế
 - Dữ liệu IBM là dữ liệu giả lập; các mối quan hệ là tương quan, cần thử nghiệm chính sách thực tế trước khi kết luận nhân quả.
 - ROC-AUC trên test (0.779) thấp hơn CV (0.831) và tập test chỉ có 47 mẫu dương, nên con số có độ dao động đáng kể.
-- Với Recall ≥ 70%, Precision chỉ khoảng 0.43: khoảng một nửa số người bị gắn cờ sẽ không nghỉ việc, cần cân nhắc chi phí can thiệp.
+- Với Recall ≥ 70%, Precision chỉ khoảng 0.43 trên out-of-fold (0.38 trên tập test): hơn một nửa số người bị gắn cờ sẽ không nghỉ việc, cần cân nhắc chi phí can thiệp.
 
 ## ▶️ 6. Cách chạy lại
 ```bash
