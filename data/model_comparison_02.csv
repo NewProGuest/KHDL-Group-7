@@ -1,0 +1,4 @@
+model,CV ROC-AUC,Test ROC-AUC,Test PR-AUC,Gap (CV - Test)
+Decision Tree (tuned),0.732,0.639,0.228,0.093
+XGBoost (random),0.827,0.794,0.495,0.033
+XGBoost (random + fine),0.835,0.791,0.504,0.044
