@@ -14,7 +14,7 @@
 13,HourlyRate,Số nguyên,Lương & phúc lợi,Mức tỷ lệ theo giờ.,,30 – 100,71,0,File không nêu đơn vị tiền tệ.
 14,JobInvolvement,Số nguyên,Hiệu suất & mức hài lòng,Mức độ gắn kết với công việc.,"1=Low, 2=Medium, 3=High, 4=Very High",1 – 4,4,0,
 15,JobLevel,Số nguyên,Công việc & phòng ban,Cấp bậc công việc.,1–5,1 – 5,5,0,
-16,JobRole,Văn bản,Công việc & phòng ban,Vị trí công việc.,9 vị trí (xem file log),"Sales Executive (326), Research Scientist (292), Laboratory Technician (259), Manufacturing Director (145), Healthcare Representative (131), Manager (102), Sales Representative (83), Research Director (80), Human Resources (52)",9,0,"Mỗi vị trí thuộc đúng 1 phòng ban, trừ Manager (thuộc cả 3 phòng ban)."
+16,JobRole,Văn bản,Công việc & phòng ban,Vị trí công việc.,9 vị trí,"Sales Executive (326), Research Scientist (292), Laboratory Technician (259), Manufacturing Director (145), Healthcare Representative (131), Manager (102), Sales Representative (83), Research Director (80), Human Resources (52)",9,0,"Mỗi vị trí thuộc đúng 1 phòng ban, trừ Manager (thuộc cả 3 phòng ban)."
 17,JobSatisfaction,Số nguyên,Hiệu suất & mức hài lòng,Mức hài lòng với công việc.,"1=Low, 2=Medium, 3=High, 4=Very High",1 – 4,4,0,
 18,MaritalStatus,Văn bản,Nhân khẩu học,Tình trạng hôn nhân.,Single / Married / Divorced,"Married (673), Single (470), Divorced (327)",3,0,
 19,MonthlyIncome,Số nguyên,Lương & phúc lợi,Thu nhập hàng tháng.,,1009 – 19999,1349,0,File không nêu đơn vị tiền tệ.
