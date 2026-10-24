@@ -163,7 +163,20 @@ KHDL-Group-7/
 
 ---
 
-## 6. Công cụ và kỹ thuật dự kiến
+## 6. Tiền xử lý dữ liệu
+
+Hai bước tiền xử lý được tách thành các script và file đầu ra riêng:
+
+1. `python src/preprocessing/handle_outliers.py` đọc dữ liệu gốc, chặn ngoại lai theo ngưỡng IQR (`Q1 - 1.5 × IQR`, `Q3 + 1.5 × IQR`) cho các biến liên tục. Ngưỡng được làm tròn vào trong cho phù hợp với các cột số nguyên, và script tạo:
+   - `data/processed/hr_attrition_outliers.csv`
+   - `data/reports/outlier_treatment_report.csv` (ngưỡng và số giá trị bị chặn theo biến)
+2. `python src/preprocessing/transform_data.py` đọc file đã xử lý ngoại lai, chuẩn hóa các biến liên tục bằng `StandardScaler`, one-hot encode biến phân loại, mã hóa `Attrition` (`No = 0`, `Yes = 1`), và tạo `data/processed/hr_attrition_transformed.csv`.
+
+Các cột hằng `EmployeeCount`, `Over18`, `StandardHours` được loại khỏi dữ liệu biến đổi; `EmployeeNumber` được giữ làm định danh và không chuẩn hóa. Các biến thứ bậc dạng số được giữ nguyên mã thứ bậc.
+
+Các scaler và bộ mã hóa trong script được fit trên toàn bộ dữ liệu để tạo file tiền xử lý dùng cho phân tích. Khi đánh giá mô hình, hãy chia train/test trước và chỉ fit các phép biến đổi trên tập train để tránh rò rỉ dữ liệu.
+
+## 7. Công cụ và kỹ thuật dự kiến
 
 - Ngôn ngữ lập trình: Python
 - Thư viện: pandas, numpy, matplotlib, seaborn, scikit-learn, xgboost, missingno
@@ -172,7 +185,7 @@ KHDL-Group-7/
 
 ---
 
-## 7. Tài liệu tham khảo
+## 8. Tài liệu tham khảo
 
 - Kaggle: IBM HR Analytics Employee Attrition & Performance
 - CRISP-DM methodology
@@ -180,7 +193,7 @@ KHDL-Group-7/
 
 ---
 
-## 8. Nhóm thực hiện
+## 9. Nhóm thực hiện
 
 - Nhóm 7
 - Môn: Khoa học dữ liệu
@@ -188,7 +201,7 @@ KHDL-Group-7/
 
 ---
 
-## 9. Lưu ý triển khai nhóm
+## 10. Lưu ý triển khai nhóm
 
 - Mỗi nhiệm vụ nên được phát triển trên nhánh riêng
 - Commit nên mô tả rõ mục đích công việc
