@@ -1,0 +1,115 @@
+TONG QUAN BO DU LIEU NHAN SU IBM HR
+===================================
+
+1. THONG TIN CHUNG
+
+Ten bo du lieu: IBM HR Analytics Employee Attrition & Performance
+So dong: 1.470 nhan vien
+So cot: 35
+Bien muc tieu: Attrition (Yes/No)
+Gia tri thieu: Khong co
+Ty le nghi viec: 237/1.470 (khoang 16,1%)
+Ty le khong nghi viec: 1.233/1.470 (khoang 83,9%)
+
+Du lieu co 26 cot dang so va 9 cot dang chu. Mot so cot so la ma thu tu,
+ma nhan vien hoac cot hang, khong nen mac dinh xem la bien lien tuc.
+
+
+2. CAC NHOM BIEN
+
+Nhan khau hoc:
+  Age, Gender, DistanceFromHome, Education, EducationField, MaritalStatus
+
+Cong viec va to chuc:
+  BusinessTravel, Department, JobRole, JobLevel, OverTime
+
+Luong va dai ngo:
+  DailyRate, HourlyRate, MonthlyIncome, MonthlyRate, PercentSalaryHike,
+  StockOptionLevel
+
+Kinh nghiem va tham nien:
+  NumCompaniesWorked, TotalWorkingYears, YearsAtCompany,
+  YearsInCurrentRole, YearsSinceLastPromotion, YearsWithCurrManager
+
+Hai long, hieu suat va dao tao:
+  EnvironmentSatisfaction, JobInvolvement, JobSatisfaction,
+  PerformanceRating, RelationshipSatisfaction, TrainingTimesLastYear,
+  WorkLifeBalance
+
+Bien muc tieu:
+  Attrition
+
+Dinh danh va cot hang:
+  EmployeeNumber, EmployeeCount, Over18, StandardHours
+
+
+3. MO TA CAC COT
+
+STT | Cot                       | Kieu / mien gia tri quan sat duoc
+----+---------------------------+-----------------------------------------------
+ 1  | Age                       | So nguyen; 18-60 tuoi.
+ 2  | Attrition                 | Phan loai; Yes/No. Bien muc tieu; Yes: 237,
+    |                           | No: 1.233.
+ 3  | BusinessTravel            | Phan loai; Non-Travel, Travel_Rarely,
+    |                           | Travel_Frequently.
+ 4  | DailyRate                 | So nguyen; 102-1.499. Don vi chua duoc neu.
+ 5  | Department                | Phan loai; Sales, Research & Development,
+    |                           | Human Resources.
+ 6  | DistanceFromHome          | So nguyen; 1-29. Don vi chua duoc neu.
+ 7  | Education                 | Ma thu tu 1-5: Below College, College,
+    |                           | Bachelor, Master, Doctor.
+ 8  | EducationField            | Phan loai; Life Sciences, Medical, Marketing,
+    |                           | Technical Degree, Other, Human Resources.
+ 9  | EmployeeCount             | So nguyen; luon bang 1, cot hang.
+10  | EmployeeNumber            | So nguyen; ma nhan vien rieng biet, dung lam
+    |                           | dinh danh, khong phai dai luong.
+11  | EnvironmentSatisfaction   | Ma muc do 1-4: Low, Medium, High, Very High.
+12  | Gender                    | Phan loai; Male/Female.
+13  | HourlyRate                | So nguyen; 30-100. Don vi chua duoc neu.
+14  | JobInvolvement             | Ma muc do 1-4: Low, Medium, High, Very High.
+15  | JobLevel                  | Cap bac cong viec; 1-5.
+16  | JobRole                   | Phan loai; 9 vi tri cong viec.
+17  | JobSatisfaction           | Ma muc do 1-4: Low, Medium, High, Very High.
+18  | MaritalStatus             | Phan loai; Single, Married, Divorced.
+19  | MonthlyIncome             | So nguyen; 1.009-19.999. Don vi tien te chua ro.
+20  | MonthlyRate               | So nguyen; 2.094-26.999. Y nghia/ don vi can
+    |                           | xac nhan voi nguon du lieu.
+21  | NumCompaniesWorked        | So nguyen; 0-9 cong ty.
+22  | Over18                    | Phan loai; chi co Y, cot hang.
+23  | OverTime                  | Phan loai; Yes/No.
+24  | PercentSalaryHike         | So nguyen; 11-25 phan tram.
+25  | PerformanceRating         | Ma danh gia; chi co gia tri 3 va 4.
+26  | RelationshipSatisfaction  | Ma muc do 1-4: Low, Medium, High, Very High.
+27  | StandardHours             | So nguyen; luon bang 80, cot hang.
+28  | StockOptionLevel          | Muc quyen chon co phieu; 0-3.
+29  | TotalWorkingYears         | So nguyen; 0-40 nam kinh nghiem lam viec.
+30  | TrainingTimesLastYear     | So nguyen; 0-6 lan dao tao trong nam truoc.
+31  | WorkLifeBalance           | Ma muc do 1-4: Bad, Good, Better, Best.
+32  | YearsAtCompany            | So nguyen; 0-40 nam tai cong ty.
+33  | YearsInCurrentRole        | So nguyen; 0-18 nam o vi tri hien tai.
+34  | YearsSinceLastPromotion    | So nguyen; 0-15 nam tu lan thang chuc gan nhat.
+35  | YearsWithCurrManager      | So nguyen; 0-17 nam lam viec voi quan ly hien tai.
+
+
+4. LUU Y KHI PHAN TICH
+
+- Attrition co mat can bang lop: khoang 16,1% Yes va 83,9% No. Khi xay dung
+  mo hinh, can xem xet cac chi so phu hop, dac biet la recall, precision,
+  F1-score va AUC-ROC; khong chi dua vao accuracy.
+- Education, EnvironmentSatisfaction, JobInvolvement, JobLevel,
+  JobSatisfaction, PerformanceRating, RelationshipSatisfaction,
+  StockOptionLevel va WorkLifeBalance la ma thu tu/muc do. Can xem xet y nghia
+  cua ma truoc khi chuan hoa hoac coi chung nhu bien lien tuc.
+- EmployeeNumber la dinh danh, khong nen dua truc tiep vao mo hinh nhu mot
+  bien lien tuc.
+- EmployeeCount, Over18 va StandardHours la cot hang trong bo du lieu, thuong
+  khong mang thong tin phan biet de mo hinh.
+- MonthlyIncome va cac bien so nam co the co gia tri ngoai lai theo quy tac
+  IQR; can phan biet ngoai lai thong ke voi gia tri sai du lieu.
+- Don vi cua DailyRate, HourlyRate, MonthlyIncome, MonthlyRate va
+  DistanceFromHome khong duoc xac dinh trong tu dien du lieu.
+- JobRole lien quan den Department; Manager co the xuat hien trong ca ba
+  phong ban.
+
+Nguon mo ta: data/raw/data_dictionary.csv
+Du lieu goc: data/raw/hr_attrition_raw.csv
