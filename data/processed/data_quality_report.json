@@ -1,0 +1,166 @@
+{
+    "rows_before": 1470,
+    "columns_before": 35,
+    "missing_values_before": 0,
+    "duplicate_rows_before": 0,
+    "rows_after": 1470,
+    "columns_after": 35,
+    "missing_values_after": 0,
+    "duplicate_rows_after": 0,
+    "negative_value_counts": {
+        "Age": 0,
+        "DailyRate": 0,
+        "DistanceFromHome": 0,
+        "HourlyRate": 0,
+        "MonthlyIncome": 0,
+        "MonthlyRate": 0,
+        "TotalWorkingYears": 0,
+        "YearsAtCompany": 0,
+        "YearsInCurrentRole": 0,
+        "YearsSinceLastPromotion": 0,
+        "YearsWithCurrManager": 0,
+        "NumCompaniesWorked": 0
+    },
+    "monthly_income_non_positive": 0,
+    "working_year_consistency_violations": {
+        "YearsAtCompany > TotalWorkingYears": 0,
+        "YearsInCurrentRole > YearsAtCompany": 0,
+        "YearsWithCurrManager > YearsAtCompany": 0,
+        "YearsSinceLastPromotion > YearsAtCompany": 0
+    },
+    "invalid_category_counts": {
+        "Attrition": 0,
+        "OverTime": 0,
+        "Gender": 0,
+        "Over18": 0
+    },
+    "constant_columns": [
+        "EmployeeCount",
+        "Over18",
+        "StandardHours"
+    ],
+    "outlier_check_iqr": {
+        "Age": {
+            "lower_bound": 10.5,
+            "upper_bound": 62.5,
+            "outlier_count": 0
+        },
+        "DailyRate": {
+            "lower_bound": -573.0,
+            "upper_bound": 2195.0,
+            "outlier_count": 0
+        },
+        "DistanceFromHome": {
+            "lower_bound": -16.0,
+            "upper_bound": 32.0,
+            "outlier_count": 0
+        },
+        "HourlyRate": {
+            "lower_bound": -5.625,
+            "upper_bound": 137.375,
+            "outlier_count": 0
+        },
+        "MonthlyIncome": {
+            "lower_bound": -5291.0,
+            "upper_bound": 16581.0,
+            "outlier_count": 114
+        },
+        "MonthlyRate": {
+            "lower_bound": -10574.75,
+            "upper_bound": 39083.25,
+            "outlier_count": 0
+        },
+        "NumCompaniesWorked": {
+            "lower_bound": -3.5,
+            "upper_bound": 8.5,
+            "outlier_count": 52
+        },
+        "PercentSalaryHike": {
+            "lower_bound": 3.0,
+            "upper_bound": 27.0,
+            "outlier_count": 0
+        },
+        "TotalWorkingYears": {
+            "lower_bound": -7.5,
+            "upper_bound": 28.5,
+            "outlier_count": 63
+        },
+        "TrainingTimesLastYear": {
+            "lower_bound": 0.5,
+            "upper_bound": 4.5,
+            "outlier_count": 238
+        },
+        "YearsAtCompany": {
+            "lower_bound": -6.0,
+            "upper_bound": 18.0,
+            "outlier_count": 104
+        },
+        "YearsInCurrentRole": {
+            "lower_bound": -5.5,
+            "upper_bound": 14.5,
+            "outlier_count": 21
+        },
+        "YearsSinceLastPromotion": {
+            "lower_bound": -4.5,
+            "upper_bound": 7.5,
+            "outlier_count": 107
+        },
+        "YearsWithCurrManager": {
+            "lower_bound": -5.5,
+            "upper_bound": 14.5,
+            "outlier_count": 14
+        }
+    },
+    "text_quality_check": {
+        "Attrition": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "BusinessTravel": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "Department": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "EducationField": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "Gender": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "JobRole": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "MaritalStatus": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "Over18": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        },
+        "OverTime": {
+            "rows_with_emoji": 0,
+            "rows_with_control_characters": 0
+        }
+    },
+    "whitespace_changes_by_column": {
+        "Attrition": 0,
+        "BusinessTravel": 0,
+        "Department": 0,
+        "EducationField": 0,
+        "Gender": 0,
+        "JobRole": 0,
+        "MaritalStatus": 0,
+        "Over18": 0,
+        "OverTime": 0
+    },
+    "monthly_income_dtype": "int64",
+    "emoji_or_control_characters_removed": false,
+    "outliers_removed": false
+}
