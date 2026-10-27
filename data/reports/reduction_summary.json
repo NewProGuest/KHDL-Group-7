@@ -1,0 +1,44 @@
+{
+  "n_features_original": 51,
+  "n_features_after_filter": 45,
+  "n_features_selected": 19,
+  "reduction_pct": 62.7,
+  "pca_components_for_90pct_variance": 21,
+  "removed_by_filter": {
+    "EducationField_Human Resources": "phương sai ~ 0",
+    "MonthlyIncome": "tương quan 0.94 với JobLevel",
+    "Department_Human Resources": "tương quan 0.92 với JobRole_Human Resources",
+    "Department_Sales": "tương quan 0.91 với Department_Research & Development",
+    "Gender_Male": "tương quan 1.00 với Gender_Female",
+    "OverTime_Yes": "tương quan 1.00 với OverTime_No"
+  },
+  "selected_features": [
+    "OverTime_No",
+    "TotalWorkingYears",
+    "YearsWithCurrManager",
+    "MaritalStatus_Single",
+    "EnvironmentSatisfaction",
+    "Age",
+    "BusinessTravel_Travel_Frequently",
+    "JobRole_Laboratory Technician",
+    "JobRole_Sales Representative",
+    "JobInvolvement",
+    "StockOptionLevel",
+    "YearsSinceLastPromotion",
+    "JobSatisfaction",
+    "YearsAtCompany",
+    "Department_Research & Development",
+    "YearsInCurrentRole",
+    "JobLevel",
+    "JobRole_Healthcare Representative",
+    "NumCompaniesWorked"
+  ],
+  "params": {
+    "seed": 42,
+    "test_size": 0.2,
+    "corr_threshold": 0.85,
+    "min_variance": 0.02,
+    "top_k": 20,
+    "min_votes": 3
+  }
+}
