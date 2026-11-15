@@ -1,0 +1,101 @@
+GIẢI THÍCH MÔ HÌNH LINEAR REGRESSION DỰ ĐOÁN NGHỈ VIỆC
+=======================================================
+
+1. Mục tiêu
+-----------
+Tài liệu này giải thích mô hình Linear Regression được dùng để ước tính khả
+năng nghỉ việc (Attrition) trong bộ dữ liệu IBM HR Analytics của dự án. Mô
+hình học mối liên hệ giữa thông tin nhân viên và nhãn Attrition để tạo điểm
+rủi ro cho từng nhân viên trong tập kiểm tra.
+
+2. Dữ liệu và biến mục tiêu
+---------------------------
+- Dữ liệu đầu vào: data/raw/hr_attrition_raw.csv.
+- Bộ dữ liệu có 1.470 nhân viên và 35 cột.
+- Biến mục tiêu Attrition được mã hóa thành số: No = 0, Yes = 1.
+- EmployeeNumber chỉ là mã định danh, không được đưa vào mô hình.
+- Các cột còn lại được dùng làm đặc trưng đầu vào.
+
+Do biến mục tiêu chỉ nhận giá trị 0 hoặc 1, giá trị dự đoán có thể được đọc
+như một điểm rủi ro / ước tính khả năng nghỉ việc. Đây là Linear Regression
+được dùng theo dạng linear probability model, không phải Logistic Regression.
+
+3. Cách mô hình được huấn luyện
+-------------------------------
+Dữ liệu được chia phân tầng theo Attrition: 80% để huấn luyện (1.176 mẫu),
+20% để kiểm tra (294 mẫu), với random_state = 42. Chia phân tầng giúp giữ
+tỷ lệ nghỉ việc gần tương tự nhau giữa hai phần.
+
+Tất cả bước tiền xử lý được fit trên tập huấn luyện:
+- Cột số: điền giá trị thiếu bằng trung vị và chuẩn hóa bằng StandardScaler.
+- Cột phân loại: điền giá trị thiếu bằng giá trị phổ biến nhất, sau đó
+  One-Hot Encode; bỏ cột giá trị đầu tiên để làm mốc so sánh.
+- Không thay đổi hoặc fit các bước tiền xử lý trên tập kiểm tra.
+
+Linear Regression ước tính các hệ số trong công thức:
+
+    y_du_doan = beta_0 + beta_1*x_1 + beta_2*x_2 + ... + beta_p*x_p
+
+Trong đó x là các đặc trưng đã tiền xử lý; beta là hệ số học từ tập huấn luyện.
+Hệ số mô tả mối liên hệ tuyến tính trong dữ liệu, không chứng minh nguyên nhân.
+
+Vì Linear Regression có thể tạo giá trị nhỏ hơn 0 hoặc lớn hơn 1, điểm dự đoán
+được giới hạn về đoạn [0, 1] khi lưu và đánh giá. Việc giới hạn này không làm
+cho các điểm trở thành xác suất đã hiệu chỉnh.
+
+4. Kết quả trên tập kiểm tra
+----------------------------
+- Số mẫu kiểm tra: 294.
+- Số nhân viên thực tế nghỉ việc: 47/294 (15,99%).
+- RMSE: 0,327. Sai số căn bậc hai trung bình trên thang 0-1; càng thấp càng tốt.
+- R-squared (R^2): 0,206. Mô hình giải thích một phần khả biến động của nhãn
+  nhị phân trên tập kiểm tra; kết quả này cho thấy sức dự đoán còn hạn chế.
+
+So sánh theo nhóm điểm rủi ro (nhóm 1 thấp nhất, nhóm 10 cao nhất):
+
+  Nhóm | Số nhân viên | Điểm dự đoán TB | Tỷ lệ nghỉ việc thực tế
+  -----|--------------|-----------------|-------------------------
+    1  |      30      |      0,0%       |          3,3%
+    2  |      29      |      0,0%       |          3,4%
+    3  |      29      |      1,8%       |          0,0%
+    4  |      30      |      7,1%       |          6,7%
+    5  |      29      |     12,4%       |         17,2%
+    6  |      29      |     16,8%       |         10,3%
+    7  |      30      |     21,4%       |         10,0%
+    8  |      29      |     27,1%       |         24,1%
+    9  |      29      |     34,3%       |         24,1%
+   10  |      30      |     51,1%       |         60,0%
+
+Tỷ lệ thực tế của nhóm 10 là 18/30 người. Nhóm điểm cao nhất có tỷ lệ nghỉ
+việc thực tế lớn hơn nhóm thấp nhất trong mẫu kiểm tra, nhưng các nhóm không
+tăng đều tuyệt đối. Đây là kết quả trên tập kiểm tra này, không đảm bảo lặp
+lại y hệt trên mẫu khác.
+
+5. Cách đọc biểu đồ và các tệp kết quả
+--------------------------------------
+- data/reports/figures/linear_regression_attrition_risk.png:
+  Đường xanh là điểm rủi ro dự đoán trung bình; đường cam là tỷ lệ nghỉ việc
+  quan sát được trong từng nhóm điểm rủi ro của tập kiểm tra.
+- data/reports/linear_regression_attrition_predictions.csv:
+  Dự đoán từng nhân viên trong tập kiểm tra. actual_attrition = 0/1;
+  predicted_attrition_probability là điểm dự đoán đã giới hạn [0, 1];
+  risk_decile là nhóm rủi ro từ 1 đến 10.
+- Mã nguồn: src/modeling/linear_regression_attrition.py.
+
+Chạy lại từ thư mục gốc dự án:
+
+    python src/modeling/linear_regression_attrition.py
+
+6. Giới hạn và lưu ý sử dụng
+----------------------------
+- Attrition là biến nhị phân; hồi quy tuyến tính có thể tạo giá trị ngoài
+  [0, 1]. Giới hạn điểm dự đoán chỉ là bước kỹ thuật, không giải quyết hết
+  vấn đề của mô hình xác suất tuyến tính.
+- R^2 = 0,206 và RMSE = 0,327 cho thấy không nên xem điểm của mô hình là dự
+  đoán chắc chắn. Mô hình chưa được hiệu chỉnh xác suất.
+- Các hệ số và mối liên hệ không khẳng định rằng đặc trưng nào gây ra việc
+  nghỉ việc.
+- Kết quả này chỉ phục vụ học tập và tham khảo tổng hợp. Không sử dụng điểm
+  riêng lẻ để tự động ra quyết định tuyển dụng, sa thải, đánh giá hoặc đối xử
+  với nhân viên. Cần đánh giá thêm bằng các mô hình phân loại phù hợp hơn,
+  kiểm định trên dữ liệu khác và xem xét yếu tố công bằng trước khi ứng dụng.

@@ -1,0 +1,128 @@
+TONG QUAN VE GIA TRI NGOAI LAI (OUTLIER)
+========================================
+
+1. KHAI NIEM
+
+Gia tri ngoai lai la gia tri nam xa so voi phan lon quan sat trong mot bien.
+Ngoai lai theo thong ke khong dong nghia voi du lieu sai: mot muc luong cao
+hoac tham nien dai co the la gia tri hop le. Vi vay, can xem xet y nghia
+nghiep vu va chat luong du lieu truoc khi loai bo hay dieu chinh.
+
+
+2. PHUONG PHAP DU AN SU DUNG
+
+Du an phat hien va xu ly ngoai lai bang quy tac IQR (Interquartile Range):
+
+  Q1  = phan vi thu nhat (25%)
+  Q3  = phan vi thu ba (75%)
+  IQR = Q3 - Q1
+  Can duoi tham khao = Q1 - 1.5 x IQR
+  Can tren tham khao = Q3 + 1.5 x IQR
+
+Gia tri nam ngoai hai can duoc xem la ngoai lai theo quy tac nay. Script lam
+tron can vao trong de phu hop voi cac cot so nguyen va gioi han can duoi o 0
+vi cac bien duoc xu ly khong am.
+
+
+3. CAC BIEN DUOC XU LY
+
+MonthlyIncome:
+  Tinh nguong rieng theo JobLevel de phan biet muc luong giua cac cap bac.
+  Nhom co it hon 30 dong se dung nguong tinh tren toan bo cot.
+
+Nam bien tham nien tinh theo toan bo du lieu:
+  TotalWorkingYears
+  YearsAtCompany
+  YearsInCurrentRole
+  YearsSinceLastPromotion
+  YearsWithCurrManager
+
+Script khong xoa dong. Cac gia tri vuot nguong duoc chot (clip) ve can gan
+nhat. Cac cot khac khong nam trong danh sach tren duoc giu nguyen.
+
+3.1. CACH CHON BIEN VA PHAM VI TINH NGUONG
+
+Script khong ap dung IQR cho tat ca cot so. Danh sach bien can xu ly duoc khai
+bao ro trong PER_GROUP_COLUMNS va GLOBAL_COLUMNS:
+
+- MonthlyIncome duoc chon de tinh nguong rieng theo JobLevel. Cach nay so sanh
+  muc luong voi cac nhan vien cung cap bac, thay vi dung chung mot nguong cho
+  cac cap bac co mat bang luong khac nhau.
+- Nam bien ve kinh nghiem/tham nien duoc tinh nguong tren toan bo du lieu,
+  theo cau hinh GLOBAL_COLUMNS trong script.
+- Cac cot khong co trong hai danh sach tren khong bi script nay chinh sua.
+
+Truoc khi xu ly, script kiem tra cac cot can thiet co ton tai hay khong. Neu
+thieu cot, chuong trinh dung va bao ten cot bi thieu thay vi tao ket qua thieu.
+
+3.2. CAC BUOC TINH NGUONG VA XU LY
+
+1. Tinh Q1, Q3, IQR tren cac gia tri khong bi thieu cua bien. Neu khong co gia
+   tri hop le de tinh, script bao loi.
+2. Tinh nguong IQR voi he so 1.5. Vi bien duoc xu ly la so nguyen, can duoi
+   duoc lam tron len va can tren duoc lam tron xuong. Can duoi duoc gioi han
+   toi thieu bang 0.
+3. Voi MonthlyIncome, script tinh them nguong rieng trong moi nhom JobLevel co
+   it nhat 30 dong. Nhom nho hon 30 dong dung nguong tinh tren toan bo
+   MonthlyIncome. Neu JobLevel bi thieu, cac dong do cung dung nguong toan cuc.
+4. Danh dau gia tri nho hon can duoi hoac lon hon can tren, sau do chot chung
+   ve can gan nhat. Gia tri bang can duoc giu nguyen.
+5. Giu nguyen so dong va cac cot khong duoc chon; bo sung mot cot
+   <ten_bien>_capped cho moi bien da xu ly (1 neu gia tri bi chot, nguoc lai
+   la 0). OutlierFlagCount la tong so bien bi chot tren moi dong.
+6. Ghi nguong va so gia tri bi chot vao bao cao. Bao cao phan tach theo
+   JobLevel cho MonthlyIncome va ghi pham vi global cho cac bien tham nien.
+
+Luu y: neu mot bien co gia tri thieu, cac gia tri thieu khong tham gia vao
+buoc tinh Q1/Q3 va van duoc giu thieu sau khi xu ly; script khong tu dien gia
+tri thieu.
+
+
+4. KET QUA TREN BO DU LIEU HIEN TAI
+
+Du lieu goc co 1.470 dong va 35 cot. Theo bao cao xu ly:
+
+Bien                    Pham vi tinh nguong       Can duoi   Can tren   So gia tri chot
+----------------------- ------------------------  ---------  ---------  ---------------
+MonthlyIncome           JobLevel=1                      955       4558               17
+MonthlyIncome           JobLevel=2                     1950       8867               21
+MonthlyIncome           JobLevel=3                     4736      14461                0
+MonthlyIncome           JobLevel=4                     8849      21949                0
+MonthlyIncome           JobLevel=5                    17821      20645                0
+TotalWorkingYears       Toan bo du lieu                   0         28               63
+YearsAtCompany          Toan bo du lieu                   0         18              104
+YearsInCurrentRole      Toan bo du lieu                   0         14               21
+YearsSinceLastPromotion Toan bo du lieu                   0          7              107
+YearsWithCurrManager    Toan bo du lieu                   0         14               14
+
+Tong cong co 347 gia tri duoc chot tren cac cot. Co 234 dong co it nhat mot
+gia tri bi chot, trong do 79 dong co tu hai gia tri bi chot tro len. Mot dong
+co the dong gop nhieu hon mot gia tri vao tong 347.
+
+
+5. CAC FILE LIEN QUAN
+
+  Script xu ly:
+    src/preprocessing/handle_outliers.py
+
+  Du lieu sau xu ly:
+    data/processed/hr_attrition_outliers.csv
+
+  Bao cao nguong va so gia tri bi chot:
+    data/reports/outlier_treatment_report.csv
+
+Chay tu thu muc goc du an:
+  python src/preprocessing/handle_outliers.py
+
+
+6. LUU Y KHI SU DUNG
+
+- IQR la quy tac thong ke, khong phai ket luan rang du lieu bi sai.
+- Chot gia tri lam thay doi gia tri cuc bien nhung khong lam mat dong du lieu.
+- OutlierFlagCount va cac cot co hau to _capped trong file ket qua giup truy vet
+  dong nao va bien nao da bi chot.
+- Cac nguong duoc tinh tren bo du lieu hien tai. Khi ap dung cho du lieu moi,
+  can tinh lai nguong phu hop hoac chi fit nguong tren tap huan luyen neu danh
+  gia mo hinh de tranh ro ri du lieu.
+- Neu phan tich can bao toan gia tri goc, hay doi chieu file du lieu goc truoc
+  khi su dung ket qua da xu ly.

@@ -1,0 +1,7 @@
+setting,n_features,model,roc_auc,pr_auc
+all,51,LogReg,0.7933,0.545
+all,51,RandomForest,0.7875,0.4561
+top25,25,LogReg,0.7846,0.5921
+top25,25,RandomForest,0.7689,0.4368
+pca95,33,LogReg,0.8035,0.572
+pca95,33,RandomForest,0.7791,0.4285

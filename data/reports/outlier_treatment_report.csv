@@ -1,13 +1,11 @@
-feature,method,q1,q3,iqr,lower_bound,upper_bound,values_below,values_above,values_capped
-Age,IQR clipping (1.5 x IQR; integer bounds),30.0,43.0,13.0,11,62,0,0,0
-DailyRate,IQR clipping (1.5 x IQR; integer bounds),465.0,1157.0,692.0,-573,2195,0,0,0
-DistanceFromHome,IQR clipping (1.5 x IQR; integer bounds),2.0,14.0,12.0,-16,32,0,0,0
-HourlyRate,IQR clipping (1.5 x IQR; integer bounds),48.0,83.75,35.75,-5,137,0,0,0
-MonthlyIncome,IQR clipping (1.5 x IQR; integer bounds),2911.0,8379.0,5468.0,-5291,16581,0,114,114
-MonthlyRate,IQR clipping (1.5 x IQR; integer bounds),8047.0,20461.5,12414.5,-10574,39083,0,0,0
-PercentSalaryHike,IQR clipping (1.5 x IQR; integer bounds),12.0,18.0,6.0,3,27,0,0,0
-TotalWorkingYears,IQR clipping (1.5 x IQR; integer bounds),6.0,15.0,9.0,-7,28,0,63,63
-YearsAtCompany,IQR clipping (1.5 x IQR; integer bounds),3.0,9.0,6.0,-6,18,0,104,104
-YearsInCurrentRole,IQR clipping (1.5 x IQR; integer bounds),2.0,7.0,5.0,-5,14,0,21,21
-YearsSinceLastPromotion,IQR clipping (1.5 x IQR; integer bounds),0.0,3.0,3.0,-4,7,0,107,107
-YearsWithCurrManager,IQR clipping (1.5 x IQR; integer bounds),2.0,7.0,5.0,-5,14,0,14,14
+feature,scope,method,n_rows,q1,q3,iqr,lower_bound,upper_bound,values_below,values_above,values_capped
+MonthlyIncome,JobLevel=1,IQR clipping (1.5 x IQR; integer bounds),543,2306.0,3207.0,901.0,955,4558,0,17,17
+MonthlyIncome,JobLevel=2,IQR clipping (1.5 x IQR; integer bounds),534,4544.0,6273.5,1729.5,1950,8867,0,21,21
+MonthlyIncome,JobLevel=3,IQR clipping (1.5 x IQR; integer bounds),218,8383.0,10814.5,2431.5,4736,14461,0,0,0
+MonthlyIncome,JobLevel=4,IQR clipping (1.5 x IQR; integer bounds),106,13761.0,17036.25,3275.25,8849,21949,0,0,0
+MonthlyIncome,JobLevel=5,IQR clipping (1.5 x IQR; integer bounds),69,18880.0,19586.0,706.0,17821,20645,0,0,0
+TotalWorkingYears,global,IQR clipping (1.5 x IQR; integer bounds),1470,6.0,15.0,9.0,0,28,0,63,63
+YearsAtCompany,global,IQR clipping (1.5 x IQR; integer bounds),1470,3.0,9.0,6.0,0,18,0,104,104
+YearsInCurrentRole,global,IQR clipping (1.5 x IQR; integer bounds),1470,2.0,7.0,5.0,0,14,0,21,21
+YearsSinceLastPromotion,global,IQR clipping (1.5 x IQR; integer bounds),1470,0.0,3.0,3.0,0,7,0,107,107
+YearsWithCurrManager,global,IQR clipping (1.5 x IQR; integer bounds),1470,2.0,7.0,5.0,0,14,0,14,14

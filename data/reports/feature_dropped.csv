@@ -1,0 +1,6 @@
+dropped,kept,abs_corr,reason
+Gender_Male,Gender_Female,1.0,cột trùng lặp (tương quan ~1)
+OverTime_No,OverTime_Yes,1.0,cột trùng lặp (tương quan ~1)
+JobLevel,MonthlyIncome,0.943,"tương quan > 0.8 với MonthlyIncome, MI thấp hơn"
+YearsWithCurrManager,YearsAtCompany,0.837,"tương quan > 0.8 với YearsAtCompany, MI thấp hơn"
+YearsInCurrentRole,YearsAtCompany,0.818,"tương quan > 0.8 với YearsAtCompany, MI thấp hơn"
