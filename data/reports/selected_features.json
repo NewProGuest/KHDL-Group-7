@@ -1,0 +1,31 @@
+{
+  "k": 25,
+  "seed": 42,
+  "features": [
+    "TotalWorkingYears",
+    "OverTime_Yes",
+    "Age",
+    "EnvironmentSatisfaction",
+    "YearsAtCompany",
+    "NumCompaniesWorked",
+    "JobRole_Laboratory Technician",
+    "YearsSinceLastPromotion",
+    "JobSatisfaction",
+    "DistanceFromHome",
+    "StockOptionLevel",
+    "MaritalStatus_Single",
+    "JobInvolvement",
+    "MonthlyIncome",
+    "DailyRate",
+    "BusinessTravel_Travel_Frequently",
+    "PercentSalaryHike",
+    "RelationshipSatisfaction",
+    "WorkLifeBalance",
+    "JobRole_Sales Representative",
+    "Department_Sales",
+    "JobRole_Research Director",
+    "BusinessTravel_Non-Travel",
+    "HourlyRate",
+    "JobRole_Healthcare Representative"
+  ]
+}

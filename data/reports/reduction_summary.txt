@@ -1,0 +1,80 @@
+BÁO CÁO DATA REDUCTION - IBM HR ATTRITION (NHÓM 7)
+======================================================
+Dữ liệu: data\processed\hr_attrition_transformed.csv  (1470 dòng, 51 đặc trưng đầu vào)
+Chia dữ liệu: train 1176 / test 294 (stratified, seed=42)
+CV: Stratified 5-fold, chọn đặc trưng lại trong từng fold
+
+1. CỘT BỊ LOẠI TRƯỚC KHI XẾP HẠNG (trên tập train)
+   - Gender_Male  (giữ Gender_Female, |corr|=1.0): cột trùng lặp (tương quan ~1)
+   - OverTime_No  (giữ OverTime_Yes, |corr|=1.0): cột trùng lặp (tương quan ~1)
+   - JobLevel  (giữ MonthlyIncome, |corr|=0.943): tương quan > 0.8 với MonthlyIncome, MI thấp hơn
+   - YearsWithCurrManager  (giữ YearsAtCompany, |corr|=0.837): tương quan > 0.8 với YearsAtCompany, MI thấp hơn
+   - YearsInCurrentRole  (giữ YearsAtCompany, |corr|=0.818): tương quan > 0.8 với YearsAtCompany, MI thấp hơn
+
+2. KẾT QUẢ CV (trung bình ± độ lệch chuẩn qua các fold)
+setting        model  n_features       roc_auc        pr_auc
+    all       LogReg        51.0 0.826 ± 0.037 0.601 ± 0.102
+    all RandomForest        51.0 0.812 ± 0.036 0.560 ± 0.072
+   top5       LogReg         5.0 0.732 ± 0.043 0.418 ± 0.035
+   top5 RandomForest         5.0 0.710 ± 0.011 0.357 ± 0.046
+  top10       LogReg        10.0 0.759 ± 0.039 0.492 ± 0.042
+  top10 RandomForest        10.0 0.748 ± 0.022 0.454 ± 0.032
+  top15       LogReg        15.0 0.793 ± 0.024 0.553 ± 0.042
+  top15 RandomForest        15.0 0.786 ± 0.021 0.520 ± 0.041
+  top20       LogReg        20.0 0.811 ± 0.029 0.589 ± 0.058
+  top20 RandomForest        20.0 0.789 ± 0.035 0.531 ± 0.057
+  top25       LogReg        25.0 0.824 ± 0.025 0.612 ± 0.053
+  top25 RandomForest        25.0 0.799 ± 0.032 0.551 ± 0.069
+  top30       LogReg        30.0 0.826 ± 0.028 0.603 ± 0.080
+  top30 RandomForest        30.0 0.803 ± 0.035 0.552 ± 0.074
+  pca90       LogReg        30.0 0.827 ± 0.018 0.604 ± 0.066
+  pca90 RandomForest        30.0 0.822 ± 0.040 0.580 ± 0.097
+  pca95       LogReg        33.0 0.834 ± 0.016 0.630 ± 0.063
+  pca95 RandomForest        33.0 0.836 ± 0.026 0.611 ± 0.094
+
+   Quy tắc one-standard-error -> chọn k = 25 đặc trưng.
+
+3. 25 ĐẶC TRƯNG ĐƯỢC CHỌN (theo hạng đồng thuận, fit trên toàn bộ train)
+    1. TotalWorkingYears
+    2. OverTime_Yes
+    3. Age
+    4. EnvironmentSatisfaction
+    5. YearsAtCompany
+    6. NumCompaniesWorked
+    7. JobRole_Laboratory Technician
+    8. YearsSinceLastPromotion
+    9. JobSatisfaction
+   10. DistanceFromHome
+   11. StockOptionLevel
+   12. MaritalStatus_Single
+   13. JobInvolvement
+   14. MonthlyIncome
+   15. DailyRate
+   16. BusinessTravel_Travel_Frequently
+   17. PercentSalaryHike
+   18. RelationshipSatisfaction
+   19. WorkLifeBalance
+   20. JobRole_Sales Representative
+   21. Department_Sales
+   22. JobRole_Research Director
+   23. BusinessTravel_Non-Travel
+   24. HourlyRate
+   25. JobRole_Healthcare Representative
+
+4. ĐÁNH GIÁ TRÊN TẬP TEST (giữ riêng, chỉ dùng một lần)
+setting  n_features        model  roc_auc  pr_auc
+    all          51       LogReg   0.7933  0.5450
+    all          51 RandomForest   0.7875  0.4561
+  top25          25       LogReg   0.7846  0.5921
+  top25          25 RandomForest   0.7689  0.4368
+  pca95          33       LogReg   0.8035  0.5720
+  pca95          33 RandomForest   0.7791  0.4285
+
+Giảm từ 51 xuống 25 đặc trưng (51% số cột).
+
+LƯU Ý:
+ - Khuyến nghị dùng Feature Selection thay vì PCA vì giữ được ý nghĩa của từng biến,
+   phù hợp mục tiêu phân tích nguyên nhân nghỉ việc.
+ - File hr_attrition_reduced.csv chứa toàn bộ dòng với các cột đã chọn; danh sách cột được
+   chọn chỉ dựa trên tập train. Khi huấn luyện mô hình hãy chia train/test lại như trong script.
+ - Các scaler/encoder trong transform_data.py được fit trên toàn bộ dữ liệu (xem README, mục 6).

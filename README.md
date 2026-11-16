@@ -176,6 +176,21 @@ Các cột hằng `EmployeeCount`, `Over18`, `StandardHours` được loại kh�
 
 Các scaler và bộ mã hóa trong script được fit trên toàn bộ dữ liệu để tạo file tiền xử lý dùng cho phân tích. Khi đánh giá mô hình, hãy chia train/test trước và chỉ fit các phép biến đổi trên tập train để tránh rò rỉ dữ liệu.
 
+### Mô hình Linear Regression minh họa khả năng nghỉ việc
+
+Chạy từ thư mục gốc repo:
+
+```bash
+python src/modeling/linear_regression_attrition.py
+```
+
+Script dùng dữ liệu gốc, chia train/test có phân tầng, và chỉ fit bộ tiền xử lý cùng Linear Regression trên tập train. Biểu đồ so sánh khả năng nghỉ việc dự đoán với tỷ lệ nghỉ việc thực tế theo 10 nhóm rủi ro trong tập test:
+
+- `data/reports/figures/linear_regression_attrition_risk.png`
+- `data/reports/linear_regression_attrition_predictions.csv` (dự đoán từng nhân viên trong tập test)
+
+Đây là mô hình xác suất tuyến tính để minh họa theo yêu cầu; dự đoán được giới hạn về [0, 1] khi xuất kết quả. Linear Regression không tối ưu cho xác suất phân loại và biểu đồ này không nên được dùng làm căn cứ duy nhất cho quyết định nhân sự.
+
 ## 7. Công cụ và kỹ thuật dự kiến
 
 - Ngôn ngữ lập trình: Python
