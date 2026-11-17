@@ -6,7 +6,6 @@ training set only. It saves a comparison table plus the list of high-risk employ
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import matplotlib
@@ -20,15 +19,13 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score,
-    classification_report,
     confusion_matrix,
     f1_score,
-    precision_recall_curve,
     precision_score,
     recall_score,
     roc_auc_score,
 )
-from sklearn.model_selection import StratifiedKFold, train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -77,15 +74,16 @@ def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
 
 
 def make_models() -> dict:
+    from sklearn.ensemble import RandomForestClassifier
+
     models = {
         "LogReg_balanced": LogisticRegression(
             class_weight="balanced",
             max_iter=5000,
             random_state=SEED,
         ),
-        "RandomForest_balanced": __import__("sklearn.ensemble", fromlist=["RandomForestClassifier"]).RandomForestClassifier(
+        "RandomForest_balanced": RandomForestClassifier(
             n_estimators=400,
-            max_depth=None,
             min_samples_leaf=5,
             class_weight="balanced_subsample",
             random_state=SEED,
@@ -131,7 +129,7 @@ def fit_and_evaluate(model_name: str, estimator, X_train, y_train, X_val, y_val,
     best_score = -1.0
     for threshold in np.linspace(0.30, 0.70, 9):
         pred = (val_proba >= threshold).astype(int)
-        score = f1_score(y_val, pred)
+        score = f1_score(y_val, pred, zero_division=0)
         if score > best_score:
             best_score = score
             best_threshold = threshold
@@ -206,16 +204,11 @@ def main() -> None:
 
     final_name = "LogReg_balanced"
     final_model = model_outputs[final_name]["pipeline"]
-    final_X = X_test.copy()
-    final_y = y_test.copy()
-    final_proba = final_model.predict_proba(final_X)[:, 1]
-    final_pred = (final_proba >= model_outputs[final_name]["threshold"]).astype(int)
-
     risk_df = X_test.copy()
     risk_df["EmployeeNumber"] = df.loc[X_test.index, "EmployeeNumber"].values
-    risk_df["actual_attrition"] = final_y.values
-    risk_df["predicted_probability"] = final_proba
-    risk_df["predicted_attrition"] = final_pred
+    risk_df["actual_attrition"] = y_test.values
+    risk_df["predicted_probability"] = model_outputs[final_name]["proba"]
+    risk_df["predicted_attrition"] = model_outputs[final_name]["pred"]
     risk_df = risk_df.sort_values("predicted_probability", ascending=False)
     risk_df = risk_df[risk_df["predicted_attrition"] == 1].head(100)
     risk_df.to_csv(HIGH_RISK_PATH, index=False)
@@ -223,8 +216,7 @@ def main() -> None:
     print(f"Saved model comparison to {MODEL_REPORT}")
     print(f"Saved high-risk employees to {HIGH_RISK_PATH}")
 
-    report = pd.DataFrame(rows)
-    print(report.to_string(index=False))
+    print(pd.DataFrame(rows).to_string(index=False))
 
 
 if __name__ == "__main__":

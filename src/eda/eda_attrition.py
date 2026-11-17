@@ -44,7 +44,6 @@ def main() -> None:
     if "Attrition" not in df.columns:
         raise ValueError("Attrition column not found in raw data")
 
-    # Basic summary table for quick exploration.
     summary = []
     for col in df.columns:
         if col == "Attrition":
@@ -73,7 +72,6 @@ def main() -> None:
 
     pd.DataFrame(summary).to_csv(OUT_SUMMARY, index=False)
 
-    # Core EDA charts.
     for col in [
         "Age",
         "MonthlyIncome",
@@ -89,7 +87,6 @@ def main() -> None:
         if col in df.columns:
             save_chart(df, col, f"Attrition vs {col}", f"eda_{col.lower()}.png")
 
-    # Attrition rate by department and overtime.
     attrition_rate = df.groupby("Department")["Attrition"].apply(
         lambda s: (s == "Yes").mean()
     ).sort_values(ascending=False)

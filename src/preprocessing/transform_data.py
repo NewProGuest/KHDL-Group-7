@@ -52,8 +52,6 @@ def main() -> None:
     if missing_columns:
         raise ValueError(f"Missing columns: {sorted(missing_columns)}")
 
-    # NOTE: This is for exploratory transformation only.
-    # Final evaluation must use train/test-safe preprocessing inside a pipeline.
     attrition = data["Attrition"].map({"No": 0, "Yes": 1})
     if attrition.isna().any():
         unexpected_values = sorted(data.loc[attrition.isna(), "Attrition"].unique())
