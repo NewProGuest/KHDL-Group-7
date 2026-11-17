@@ -1,8 +1,14 @@
+"""This module is intentionally exploratory.
+
+The original pipeline fit a scaler/encoder on the full dataset, which is not valid
+for final model evaluation. For the production classification task, use the
+train/test-safe pipeline in src/modeling/train_attrition_models.py.
+"""
+
 from pathlib import Path
 
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT_PATH = ROOT / "data" / "processed" / "hr_attrition_outliers.csv"
@@ -46,6 +52,8 @@ def main() -> None:
     if missing_columns:
         raise ValueError(f"Missing columns: {sorted(missing_columns)}")
 
+    # NOTE: This is for exploratory transformation only.
+    # Final evaluation must use train/test-safe preprocessing inside a pipeline.
     attrition = data["Attrition"].map({"No": 0, "Yes": 1})
     if attrition.isna().any():
         unexpected_values = sorted(data.loc[attrition.isna(), "Attrition"].unique())
@@ -55,18 +63,13 @@ def main() -> None:
     transformed["Attrition"] = attrition.astype("int64")
 
     scaler = StandardScaler()
-    transformed[CONTINUOUS_COLUMNS] = scaler.fit_transform(
-        transformed[CONTINUOUS_COLUMNS]
-    )
-    transformed = pd.get_dummies(
-        transformed,
-        columns=CATEGORICAL_COLUMNS,
-        dtype="int64",
-    )
+    transformed[CONTINUOUS_COLUMNS] = scaler.fit_transform(transformed[CONTINUOUS_COLUMNS])
+    transformed = pd.get_dummies(transformed, columns=CATEGORICAL_COLUMNS, dtype="int64")
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     transformed.to_csv(OUTPUT_PATH, index=False)
     print(f"Saved transformed data to {OUTPUT_PATH}")
+    print("This file is for exploratory analysis; fit preprocessing on train only for final modeling.")
 
 
 if __name__ == "__main__":
